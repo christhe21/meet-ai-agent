@@ -1,0 +1,29 @@
+%% High-level component overview for Meet AI Agent
+%% Render with: mermaid-cli or GitHub native
+
+flowchart TB
+    subgraph Control
+        Main[main.py Orchestrator]
+        Detector[Lonely Trigger]
+    end
+
+    subgraph Media
+        Joiner[Browser Joiner<br/>Playwright]
+        STT[Ears - STT]
+        LLM[Brain - LLM + Persona]
+        TTS[Voice - TTS]
+        Inject[Audio Injector]
+    end
+
+    Meet[(Google Meet)]
+
+    Main --> Joiner
+    Joiner --> Meet
+    Detector --> Meet
+    Main --> Detector
+    Detector -->|activate/deactivate| Main
+    Main --> STT
+    STT --> LLM
+    LLM --> TTS
+    TTS --> Inject
+    Inject --> Meet
